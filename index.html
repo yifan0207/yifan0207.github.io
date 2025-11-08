@@ -5,15 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>湛江中考总分折算计算器</title>
     <style>
+        html {
+            font-size: 16px !important;
+            -webkit-text-size-adjust: 100% !important;
+            text-size-adjust: 100% !important;
+        }
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: "Microsoft YaHei", Arial, sans-serif;
+            font-family: "SimSun", 宋体, Arial, sans-serif;
         }
         body {
             background: #f5f7fa;
-            padding: 15px;
+            padding: 0.9375rem;
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -21,35 +26,33 @@
         }
         .calculator-card {
             width: 100%;
-            max-width: 600px;
+            max-width: 37.5rem;
             background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-            padding: 25px;
+            border-radius: 0.75rem;
+            box-shadow: 0 0.25rem 0.9375rem rgba(0, 0, 0, 0.08);
+            padding: 1.5625rem;
             transition: transform 0.3s ease;
             position: relative;
         }
         .calculator-card:hover {
-            transform: translateY(-3px);
+            transform: translateY(-0.1875rem);
         }
-        /* 历史记录按钮：右上角位置 */
         .history-btn {
             position: absolute;
-            top: 20px;
-            right: 20px;
-            padding: 4px 8px;
+            top: 1.25rem;
+            right: 1.25rem;
+            padding: 0.25rem 0.5rem;
             background: #4299e1;
             color: #fff;
             border: none;
-            border-radius: 6px;
-            font-size: 10px;
+            border-radius: 0.375rem;
+            font-size: 0.625rem;
             cursor: pointer;
             transition: background 0.3s ease;
         }
         .history-btn:hover {
             background: #3182ce;
         }
-        /* 历史记录弹窗样式 */
         .history-modal {
             position: fixed;
             top: 0;
@@ -61,157 +64,154 @@
             justify-content: center;
             align-items: center;
             z-index: 100;
-            padding: 20px;
+            padding: 1.25rem;
         }
         .history-content {
             background: #fff;
-            border-radius: 10px;
+            border-radius: 0.625rem;
             width: 100%;
-            max-width: 500px;
+            max-width: 31.25rem;
             max-height: 80vh;
             overflow-y: auto;
-            padding: 20px;
+            padding: 1.25rem;
             position: relative;
         }
         .close-modal {
             position: absolute;
-            top: 15px;
-            right: 15px;
+            top: 0.9375rem;
+            right: 0.9375rem;
             background: transparent;
             border: none;
-            font-size: 20px;
+            font-size: 1.25rem;
             cursor: pointer;
             color: #64748b;
         }
         .history-title {
-            font-size: 18px;
+            font-size: 1.125rem;
             color: #2d3748;
-            margin-bottom: 15px;
+            margin-bottom: 0.9375rem;
             text-align: center;
         }
         .history-empty {
             text-align: center;
             color: #64748b;
-            padding: 30px 0;
+            padding: 1.875rem 0;
         }
         .history-item {
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 12px;
+            border: 0.0625rem solid #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 0.9375rem;
+            margin-bottom: 0.75rem;
         }
         .history-time {
-            font-size: 13px;
+            font-size: 0.8125rem;
             color: #64748b;
-            margin-bottom: 10px;
+            margin-bottom: 0.625rem;
         }
         .history-total {
-            font-size: 16px;
+            font-size: 1rem;
             font-weight: 600;
             color: #2d3748;
-            margin-bottom: 8px;
+            margin-bottom: 0.5rem;
         }
         .history-detail {
-            font-size: 13px;
+            font-size: 0.8125rem;
             color: #4a5568;
-            margin-top: 8px;
+            margin-top: 0.5rem;
         }
         .history-detail-item {
             display: flex;
             justify-content: space-between;
-            margin-top: 4px;
+            margin-top: 0.25rem;
         }
-        /* 原有样式保持 */
         .card-title {
             text-align: center;
             color: #2d3748;
-            font-size: 22px;
-            margin-bottom: 10px;
+            font-size: 1.375rem;
+            margin-bottom: 0.625rem;
         }
         .card-subtitle {
             text-align: center;
             color: #64748b;
-            font-size: 14px;
-            margin-bottom: 20px;
+            font-size: 0.875rem;
+            margin-bottom: 1.25rem;
         }
         .form-group {
-            margin-bottom: 22px;
+            margin-bottom: 1.375rem;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 0.625rem;
         }
         .form-label {
             color: #2d3748;
-            font-size: 16px;
+            font-size: 1rem;
             font-weight: 600;
-            padding-left: 2px;
+            padding-left: 0.125rem;
         }
         .sub-label {
             color: #64748b;
-            font-size: 14px;
+            font-size: 0.875rem;
             font-weight: normal;
-            margin-top: -8px;
-            padding-left: 2px;
+            margin-top: -0.5rem;
+            padding-left: 0.125rem;
         }
-        /* 输入框统一样式 */
         .form-input {
-            padding: 12px 15px;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 15px;
+            padding: 0.75rem 0.9375rem;
+            border: 0.0625rem solid #e2e8f0;
+            border-radius: 0.5rem;
+            font-size: 0.9375rem;
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
         .form-input::placeholder {
-            color: #94a3b8; /* 统一提示文字颜色 */
+            color: #94a3b8;
         }
         .form-input:focus {
             outline: none;
             border-color: #4299e1;
-            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+            box-shadow: 0 0 0 0.1875rem rgba(66, 153, 225, 0.1);
         }
         .select-group {
             display: flex;
-            gap: 15px;
+            gap: 0.9375rem;
             flex-wrap: wrap;
             align-items: center;
-            padding: 6px 0;
+            padding: 0.375rem 0;
         }
         .select-item {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 0.375rem;
             color: #4a5568;
-            font-size: 14px;
+            font-size: 0.875rem;
         }
         .select-item input {
-            width: 16px;
-            height: 16px;
+            width: 1rem;
+            height: 1rem;
             accent-color: #4299e1;
         }
-        /* 推荐标准标签样式 */
         .recommend-tag {
             color: #10b981;
             font-weight: 600;
-            margin-left: 4px;
-            font-size: 13px;
+            margin-left: 0.25rem;
+            font-size: 0.8125rem;
         }
         .group-divider {
-            height: 1px;
+            height: 0.0625rem;
             background: #f0f0f0;
-            margin: 15px 0;
+            margin: 0.9375rem 0;
         }
         .calc-btn {
             width: 100%;
-            padding: 14px;
+            padding: 0.875rem;
             background: #4299e1;
             color: #fff;
             border: none;
-            border-radius: 8px;
-            font-size: 16px;
+            border-radius: 0.5rem;
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             transition: background 0.3s ease, opacity 0.3s ease;
-            margin: 10px 0 25px;
+            margin: 0.625rem 0 1.5625rem;
         }
         .calc-btn:hover {
             background: #3182ce;
@@ -221,51 +221,50 @@
         }
         .total-result {
             text-align: center;
-            padding: 18px;
+            padding: 1.125rem;
             background: #f7fafc;
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
-            margin-bottom: 20px;
+            border-radius: 0.5rem;
+            border: 0.0625rem solid #e2e8f0;
+            margin-bottom: 1.25rem;
         }
         .result-label {
             color: #4a5568;
-            font-size: 15px;
-            margin-bottom: 5px;
+            font-size: 0.9375rem;
+            margin-bottom: 0.3125rem;
         }
         .result-value {
             color: #2d3748;
-            font-size: 24px;
+            font-size: 1.5rem;
             font-weight: 700;
-            letter-spacing: 0.5px;
-            margin-bottom: 8px; /* 给评语留间距 */
+            letter-spacing: 0.03125rem;
+            margin-bottom: 0.5rem;
         }
-        /* 评语样式 */
         .result-comment {
             color: #10b981;
-            font-size: 14px;
+            font-size: 0.875rem;
             font-weight: 600;
         }
         .detail-group {
             background: #f7fafc;
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
-            padding: 15px;
-            margin-bottom: 20px;
+            border-radius: 0.5rem;
+            border: 0.0625rem solid #e2e8f0;
+            padding: 0.9375rem;
+            margin-bottom: 1.25rem;
         }
         .detail-title {
             color: #2d3748;
-            font-size: 16px;
+            font-size: 1rem;
             font-weight: 600;
-            margin-bottom: 10px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 0.625rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 0.0625rem solid #e2e8f0;
         }
         .detail-item {
             display: flex;
             justify-content: space-between;
-            padding: 6px 0;
+            padding: 0.375rem 0;
             color: #4a5568;
-            font-size: 14px;
+            font-size: 0.875rem;
         }
         .detail-label {
             flex: 1;
@@ -274,59 +273,147 @@
             flex: 1;
             text-align: right;
         }
-        /* 温馨提示样式 */
+        .non-official-tip {
+            color: #94a3b8;
+            font-size: 0.75rem;
+            text-align: right;
+            margin-top: 0.5rem;
+            font-weight: normal;
+        }
         .tip-group {
-            background-color: #fef7fb; /* 浅粉色温馨背景 */
-            border-left: 3px solid #f6ad55; /* 橙色提示边框 */
-            padding: 15px;
-            border-radius: 6px;
-            margin-bottom: 20px;
+            background-color: #fef7fb;
+            border-left: 0.1875rem solid #f6ad55;
+            padding: 0.9375rem;
+            border-radius: 0.375rem;
+            margin-bottom: 1.25rem;
         }
         .tip-title {
             color: #2d3748;
-            font-size: 15px;
+            font-size: 0.9375rem;
             font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 0.5rem;
         }
         .tip-content {
             color: #4a5568;
-            font-size: 14px;
+            font-size: 0.875rem;
             line-height: 1.8;
         }
-        /* 响应式调整 */
-        @media (max-width: 480px) {
+        /* 介绍弹窗样式 */
+        .popup-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            padding: 1.25rem;
+        }
+        .popup-content {
+            background: #fff;
+            border-radius: 0.75rem;
+            width: 100%;
+            max-width: 28rem;
+            padding: 1.5625rem 1.25rem;
+            box-shadow: 0 0.375rem 1.25rem rgba(0, 0, 0, 0.15);
+            position: relative;
+        }
+        .popup-text {
+            color: #4a5568;
+            font-size: 0.875rem;
+            line-height: 1.7;
+            margin-bottom: 1.5625rem;
+        }
+        .popup-text .reward-link {
+            color: #4299e1;
+            font-weight: 600;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        .popup-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #64748b;
+            font-size: 0.8125rem;
+            margin-bottom: 1.25rem;
+        }
+        .popup-checkbox input {
+            width: 1rem;
+            height: 1rem;
+            accent-color: #4299e1;
+        }
+        .popup-confirm-btn {
+            width: 100%;
+            padding: 0.875rem;
+            background: #4299e1;
+            color: #fff;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .popup-confirm-btn:hover {
+            background: #3182ce;
+        }
+        /* 媒体查询适配手机端 */
+        @media (max-width: 30rem) {
+            html {
+                font-size: 14px !important;
+            }
             .calculator-card {
-                padding: 20px 15px;
+                padding: 1.25rem 0.9375rem;
             }
             .history-btn {
-                top: 20px;
-                right: 20px;
-                padding: 5px 10px;
-                font-size: 13px;
+                top: 1.25rem;
+                right: 1.25rem;
+                padding: 0.3125rem 0.625rem;
+                font-size: 0.8125rem;
             }
             .card-title {
-                font-size: 20px;
-                margin-bottom: 8px;
+                font-size: 1.25rem;
+                margin-bottom: 0.5rem;
             }
             .select-group {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 12px;
+                gap: 0.75rem;
             }
             .result-value {
-                font-size: 22px;
+                font-size: 1.375rem;
+            }
+            .popup-content {
+                padding: 1.5625rem 1.25rem;
             }
         }
     </style>
 </head>
 <body>
+    <!-- 介绍弹窗 -->
+    <div class="popup-modal" id="popupModal">
+        <div class="popup-content">
+            <div class="popup-text">
+                哈喽～ 我是市第二十三中学23级的一名学生，这个湛江中考总分折算计算器是我结合AI软件制作的！<br><br>
+                初衷是想给身边同学提供一个方便的分数估算工具，所有计算规则都参考了湛江教育局公开标准，但非官方工具可能存在微小误差，仅供大家参考哦～<br><br>
+                如果觉得这个工具对你有帮助，不妨给我一个小小的<span class="reward-link" onclick="window.open('https://yifan0207.github.io/dashang.png', '_blank')">打赏鼓励</span>一下呀！你的支持会让我更有动力优化功能、分享更多实用工具～<br><br>
+                我的联系邮箱：2285626412@qq.com，有任何使用问题、优化建议，都可以随时发邮件告诉我呀！😊
+            </div>
+            <div class="popup-checkbox">
+                <input type="checkbox" id="noShowToday">
+                <label for="noShowToday">暂时不显示</label>
+            </div>
+            <button class="popup-confirm-btn" onclick="closePopupModal()">我知道了</button>
+        </div>
+    </div>
+
     <div class="calculator-card">
-        <!-- 右上角历史记录按钮 -->
         <button class="history-btn" onclick="openHistoryModal()">🔍</button>
-        
-        <!-- 标题添加“湛江”二字 -->
         <h2 class="card-title">湛江中考总分折算计算器</h2>
-        <!-- 移除原副标题（移至温馨提示） -->
         <!-- 1. 基础性科目 -->
         <div class="form-group">
             <label class="form-label">1. 基础性科目</label>
@@ -338,7 +425,6 @@
         <!-- 2. 科目组 -->
         <div class="form-group">
             <label class="form-label">2. 科目组</label>
-            
             <!-- 物理+历史组 -->
             <div class="sub-label">2.1 物理+历史组</div>
             <input type="number" id="physics-written" class="form-input" placeholder="物理笔试成绩（满分100分）" min="0" max="100">
@@ -362,7 +448,7 @@
         <div class="total-result">
             <div class="result-label">折算后总分</div>
             <div class="result-value" id="totalScore">--</div>
-            <div class="result-comment" id="scoreComment"></div> <!-- 评语容器 -->
+            <div class="result-comment" id="scoreComment"></div>
         </div>
         <!-- 得分详情 -->
         <div class="detail-group">
@@ -395,18 +481,20 @@
                 <span class="detail-label">生物+地理组：</span>
                 <span class="detail-value" id="detailBiGe">--</span>
             </div>
+            <div class="non-official-tip">（非官方工具，可能存在小误差）</div>
         </div>
-        <!-- 温馨提示：添加原副标题内容作为第一条提示 -->
+        <!-- 温馨提示 -->
         <div class="tip-group">
             <div class="tip-title">温馨提示</div>
             <div class="tip-content">
                 1. 计算标准说明：本工具的计算标准依靠的是湛江教育局公开可查询到的标准，截止到2025年11月仍有效；<br>
                 2. 科目组规则：若同一科目组内有一科未考（留空），另一科自动按高分科目计算；<br>
                 3. 实验分规则：若实验操作成绩留空，默认不计算实验分，仅按笔试成绩100%计入总分；<br>
-                4. 小数处理规则：<br>
-                   • 小数＜0.25：记0<br>
-                   • 0.25≤小数＜0.75：记0.5<br>
-                   • 小数≥0.75：记1
+                4. 小数处理规则（精确适配计算逻辑）：<br>
+                   • 计算结果的小数部分＜0.25时，直接舍去小数，保留整数；<br>
+                   • 计算结果的小数部分在0.25（含）-0.75（不含）之间时，保留一位小数0.5；<br>
+                   • 计算结果的小数部分≥0.75时，小数部分进1，保留整数；<br>
+                   例：3.2→3，4.5→4.5，5.8→6
             </div>
         </div>
     </div>
@@ -416,13 +504,11 @@
             <button class="close-modal" onclick="closeHistoryModal()">&times;</button>
             <h3 class="history-title">计算历史记录</h3>
             <div id="historyList" class="history-list">
-                <!-- 历史记录会通过JS动态插入，无记录时显示下方空提示 -->
                 <div class="history-empty">暂无计算记录</div>
             </div>
         </div>
     </div>
     <script>
-
 // 从本地存储加载历史记录（页面初始化时执行）
 let calculateHistory = JSON.parse(localStorage.getItem('zhongkaoCalcHistory')) || [];
 // 输入框顺序列表：按页面显示顺序排列，用于回车切换
@@ -432,14 +518,46 @@ const inputOrder = [
     'chemistry-written', 'chemistry-exam', 'politics',
     'biology-written', 'biology-exam', 'geography'
 ];
-// 新增：分数段对应评语
+// 细分分数段评语
 const scoreComments = [
-    { min: 700, comment: '总分顶尖！实力超群，保持状态冲刺理想高中！' },
-    { min: 640, max: 699, comment: '成绩优秀！小幅优化细节，即可向顶尖迈进！' },
-    { min: 580, max: 639, comment: '基础扎实！针对性提升，总分有望大幅突破！' },
-    { min: 520, max: 579, comment: '达到合格线！巩固主科基础，稳步提升更高效！' },
-    { max: 519, comment: '潜力十足！先抓基础得分，进步会很明显！' }
+    { min: 740, comment: '超顶尖总分！实力碾压同级，保持稳定发挥，冲刺全市优质高中头部梯队！' },
+    { min: 710, max: 739, comment: '顶尖水平！总分竞争力极强，细节处少丢分，即可向更高名次冲击！' },
+    { min: 700, max: 709, comment: '总分顶尖！实力超群，保持状态冲刺理想高中！' },
+    { min: 670, max: 699, comment: '高分稳拿！总分优势明显，保持现有节奏，冲刺重点高中无忧！' },
+    { min: 640, max: 669, comment: '成绩优秀！小幅优化细节，即可向顶尖迈进！' },
+    { min: 610, max: 639, comment: '优秀水准！总分基础扎实，优化答题效率，分数仍有上升空间！' },
+    { min: 580, max: 609, comment: '基础扎实！针对性提升，总分有望大幅突破！' },
+    { min: 550, max: 579, comment: '稳步前行！总分处于中上水平，巩固基础题，避免失误就能提分！' },
+    { min: 520, max: 549, comment: '达到合格线！巩固主科基础，稳步提升更高效！' },
+    { min: 480, max: 519, comment: '接近合格线！聚焦基础题型，保证会做的题不丢分，提分见效快！' },
+    { min: 430, max: 479, comment: '基础待强化！从高频基础考点入手，逐步积累，总分稳步上涨！' },
+    { min: 380, max: 429, comment: '潜力待挖掘！优先掌握简单题和中档题，减少失分，进步看得见！' },
+    { min: 330, max: 379, comment: '起步阶段加油！重点攻克基础得分点，慢慢积累，总分会有大突破！' },
+    { max: 329, comment: '潜力十足！先抓基础得分，进步会很明显！' }
 ];
+
+// 弹窗控制相关逻辑
+document.addEventListener('DOMContentLoaded', () => {
+    const noShowToday = localStorage.getItem('popupNoShowToday');
+    const popupModal = document.getElementById('popupModal');
+    if (!noShowToday || new Date().getTime() > parseInt(noShowToday)) {
+        popupModal.style.display = 'flex';
+    } else {
+        popupModal.style.display = 'none';
+    }
+});
+
+// 关闭首次弹窗
+function closePopupModal() {
+    const popupModal = document.getElementById('popupModal');
+    const noShowToday = document.getElementById('noShowToday').checked;
+    if (noShowToday) {
+        const expiresTime = new Date().getTime() + 1 * 60 * 60 * 1000;
+        localStorage.setItem('popupNoShowToday', expiresTime.toString());
+    }
+    popupModal.style.display = 'none';
+}
+
 // 1. 核心计算函数
 function calculateTotal() {
     // 工具函数1：处理输入分数（留空/非数字默认为0，限制满分范围）
@@ -451,12 +569,12 @@ function calculateTotal() {
     // 工具函数2：计算理科最终成绩（默认实验10分制）
     const calculateSciFinalScore = (writtenId, examId) => {
         const writtenScore = getScore(writtenId);
-        const examScore = getScore(examId, 10); // 实验分限制最大10分
+        const examScore = getScore(examId, 10);
         return examScore === 0 ? writtenScore : writtenScore * 0.9 + examScore;
     };
     // 工具函数3：整数运算规避浮点数误差
     const safeMultiply = (score, multiple, divisor) => (score * multiple) / divisor;
-    // 工具函数4：小数处理（固定标准）
+    // 工具函数4：小数处理（按明确规则实现）
     const handleDecimal = (num) => {
         const decimalPart = num - Math.floor(num);
         if (decimalPart < 0.25) {
@@ -471,7 +589,7 @@ function calculateTotal() {
     const chineseFin = handleDecimal(getScore('chinese', 120));
     const mathFin = handleDecimal(getScore('math', 120));
     const englishFin = handleDecimal(safeMultiply(getScore('english', 120), 100, 120));
-    const peFin = handleDecimal(getScore('pe-score', 80)); // 体育直接80分制
+    const peFin = handleDecimal(getScore('pe-score', 80));
     // 计算科目组得分（调用辅助函数）
     const physicsFinal = calculateSciFinalScore('physics-written', 'physics-exam');
     const historyFinal = getScore('history');
@@ -484,9 +602,8 @@ function calculateTotal() {
     const biGeTotal = handleDecimal(getGroupTotal(biologyFinal, geographyFinal, 1, 2, 'secondType'));
     // 计算总分
     const totalScore = handleDecimal(chineseFin + mathFin + englishFin + peFin + phHisTotal + chPoTotal + biGeTotal);
-    // 更新页面显示（去掉/760分，新增评语显示）
+    // 更新页面显示
     document.getElementById('totalScore').textContent = totalScore;
-    // 匹配对应评语
     let comment = '';
     for (let item of scoreComments) {
         if ((!item.min || totalScore >= item.min) && (!item.max || totalScore <= item.max)) {
@@ -521,23 +638,17 @@ function calculateTotal() {
 }
 // 2. 科目组得分计算辅助函数
 function getGroupTotal(score1, score2, highMultiple, highDivisor, type) {
-    // 区分高分、低分（未学/未考科目填0，不参与高低分判断）
     const [highScore, lowScore] = score1 === 0 
         ? [score2, 0] 
         : (score2 === 0 ? [score1, 0] : (score1 >= score2 ? [score1, score2] : [score2, score1]));
-    // 高分按比例折算
     const highConverted = (highScore * highMultiple) / highDivisor;
-    // 低分按等级赋分
     let lowConverted = 0;
     if (lowScore > 0) {
         if (lowScore >= 80) {
-            // A级：第一科类（物/史/化/道）50分，第二科类（生/地）40分
             lowConverted = type === 'firstType' ? 50 : 40;
         } else if (lowScore >= 15) {
-            // B/C级：第一科类×62.5%，第二科类×50%
             lowConverted = type === 'firstType' ? (lowScore * 5) / 8 : (lowScore * 1) / 2;
         }
-        // D级（<15分）默认0分，无需额外处理
     }
     return highConverted + lowConverted;
 }
@@ -555,13 +666,9 @@ function getFormattedTime() {
 }
 // 3.2 记录本次计算（存入本地存储+更新历史列表）
 function recordCalculation(record) {
-    // 添加新记录到数组头部（最新记录在最前）
     calculateHistory.unshift(record);
-    // 限制历史记录数量（最多9999条，避免本地存储过大）
     if (calculateHistory.length > 9999) calculateHistory.pop();
-    // 存入本地存储
     localStorage.setItem('zhongkaoCalcHistory', JSON.stringify(calculateHistory));
-    // 更新历史记录弹窗的显示
     renderHistoryList();
 }
 // 3.3 渲染历史记录列表
@@ -573,7 +680,6 @@ function renderHistoryList() {
     }
     let historyHtml = '';
     calculateHistory.forEach((item, index) => {
-        // 关键修改：用“总记录数 - 当前索引”得到正确序号，最新记录序号最大
         const recordNum = calculateHistory.length - index;
         historyHtml += `
             <div class="history-item">
@@ -615,7 +721,6 @@ function renderHistoryList() {
 }
 // 3.4 打开历史记录弹窗
 function openHistoryModal() {
-    // 打开前重新渲染列表（确保数据最新）
     renderHistoryList();
     document.getElementById('historyModal').style.display = 'flex';
 }
@@ -625,19 +730,16 @@ function closeHistoryModal() {
 }
 // 4. 页面加载完成后初始化（回车切换输入框）
 document.addEventListener('DOMContentLoaded', () => {
-    // 回车切换下一个输入框逻辑
     inputOrder.forEach((inputId, index) => {
         const input = document.getElementById(inputId);
         if (input) {
             input.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter') {
-                    e.preventDefault(); // 阻止默认回车行为
-                    // 不是最后一个输入框，则聚焦到下一个
+                    e.preventDefault();
                     if (index < inputOrder.length - 1) {
                         const nextInput = document.getElementById(inputOrder[index + 1]);
                         if (nextInput) nextInput.focus();
                     } else {
-                        // 最后一个输入框按回车，自动触发计算
                         input.blur();
                         calculateTotal();
                     }
@@ -646,6 +748,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-</script>
+    </script>
 </body>
 </html>
